@@ -1,5 +1,6 @@
 #include <LiquidCrystal.h>
 
+
 //---- for setup of LCD and the button ----
 const int d4 = 5;
 const int d5 = 4;
@@ -27,35 +28,25 @@ long lastButtonPress = 0;
 const long debounceThreshold = 100;
 
 //--- used for handling the quotes
-const int q_size = 23;
+const int q_size = 12;
 String quotes[q_size] = {
-"No guts, no story.",
-"Screw it, let's do it.",
-"Boldness be my friend.",
-"Keep going. Be all in.",
-"My life is my argument.",
-"Dream big. Pray bigger.",
-"Leave no stone unturned.",
-"Fight till the last gasp.",
-"Stay hungry. Stay foolish.",
-"Broken crayons still color.",
-"And so the adventure begins.",
-"If you want it, work for it.",
-"You can if you think you can.",
-"Whatever you are, be a good one.",
-"Impossible is for the unwilling.",
-"Grow through what you go through.",
-"The wisest mind has something yet to learn.",
-"Take the risk or lose the chance.",
-"Do it with passion or not at all.",
-"She believed she could, so she did.",
-"The past does not equal the future.",
-"Good things happen to those who hustle.",
-"At the end of hardship comes happiness."
+"Go forth on your path, as it exists only through your walking.",
+"Each day provides its own gifts.",
+"Enjoy the little things.",
+"This suspense is terrible. I hope it will last.",
+"You make my heart smile.",
+"I love you not only for what you are, but for what I am when I am with you.",
+"All generalizations are false, including this one.",
+"Life is a long lesson in humility.",
+"Why fit in when you were born to stand out?",
+"Never expect anything. You'll never be disappointed.",
+"Gratitude is not only the greatest of virtues, but the parent of all others.",
+"How do we change the world? One random act of kindness at the time."
 };
 
 void setup() {
   // put your setup code here, to run once: 
+  randomSeed(analogRead(0));
   lcd.begin(16,2);
   pinMode(switchPin, INPUT);
   lcd.print("Press the button");
@@ -119,9 +110,9 @@ void prepareNextQuote(){
       ind++;
     }
   }
-  indexes[ind] = quote.length();
+  indexes[ind] = quote.length()-1;
   int last = 0;
-  for(int i = 0; i <= count; i++){
+  for(int i = 0; i < count; i++){
     if(indexes[i]-last > maxLength){
       l++;
       last = indexes[i-1]+1;
@@ -130,10 +121,10 @@ void prepareNextQuote(){
   int splits[l-1];
   last = 0;
   int at = 0;
-  for(int i = 0; i <= count;i++){
+  for(int i = 0; i < count;i++){
     if(indexes[i] -last> maxLength){
       splits[at] = indexes[i-1];
-      last = indexes[i-1];
+      last = indexes[i-1]+1;
       at++;
     }
   }
